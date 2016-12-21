@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.UserDao">
+
+	<resultMap type="User" id="UserResult">
+		<id property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<association property="depart" column="depart_id" select="dao.DepartDao.findById" />
+	</resultMap>
+	
+	<select id="findByName" resultType="int">
+		select count(*) from t_user where username=#{username}
+	</select>
+
+	<select id="login" parameterType="User" resultMap="UserResult">
+		select * from t_user where username=#{username} and password=#{password}
+	</select>
+
+</mapper>
